@@ -1,11 +1,10 @@
 var Game = Game || {};
 
-Game.Engine = function(canvasID, width, height, FPS) {
+Game.Engine = function(canvasID, width, height) {
   'use strict';
   this.canvas = document.getElementById(canvasID);
   this.canvas.width = width;
   this.canvas.height = height;
-  this.FPS = FPS;
 };
 
 Game.Engine.prototype.init = function() {

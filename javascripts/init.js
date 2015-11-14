@@ -3,7 +3,7 @@ var Game = Game || {};
 var WIDTH = window.innerWidth;
 var HEIGHT = window.innerHeight;
 var FPS = 1000 / 30;
-var engine = new Game.Engine('game', WIDTH, HEIGHT, FPS);
+var engine = new Game.Engine('game', WIDTH, HEIGHT);
 
 engine.init();
 engine.register(new Game.SnakeGame(WIDTH, HEIGHT, {}));
