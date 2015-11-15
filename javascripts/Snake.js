@@ -46,12 +46,14 @@ Game.SnakeGame.prototype.render = function(context) {
   this.snake.forEach(function(s) {
     coordinates = self.blockPosition(s[0], s[1]);
     context.fillStyle = '#FFFFFF';
-    context.fillRect(coordinates.x, coordinates.y, self.blockWidth,
+    context.rect(coordinates.x, coordinates.y, self.blockWidth,
                  self.blockHeight);
     context.lineWidth = "1";
     context.strokeStyle = '#000000';
-    context.strokeRect(coordinates.x, coordinates.y, self.blockWidth,
+    context.rect(coordinates.x, coordinates.y, self.blockWidth,
                       self.blockHeight);
   });
   context.closePath();
+  context.fill();
+  context.stroke();
 };
