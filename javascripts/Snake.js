@@ -11,6 +11,7 @@ Game.Snake = function(width, height, options) {
   var midCol = Math.floor(columns / 2);
   var midRow = Math.floor(rows / 2);
   this.snake = [[midCol, midRow], [midCol - 1, midRow], [midCol - 2, midRow]];
+  this.direction = 'right';
 };
 
 Game.Snake.prototype.DIRECTIONS = {
@@ -28,8 +29,29 @@ Game.Snake.prototype.blockPosition = function(col, row) {
   };
 };
 
+Game.Snake.prototype.moveSnake = function() {
+  'use strict';
+  var headX = this.snake[0][0];
+  var headY = this.snake[0][1];
+
+  if (this.direction === this.DIRECTIONS.UP) {
+    headY -= 1;
+  } else if (this.direction === this.DIRECTIONS.RIGHT) {
+    headX += 1;
+  } else if (this.direction === this.DIRECTIONS.DOWN) {
+    headY += 1;
+  } else if (this.direction === this.DIRECTIONS.LEFT) {
+    headX -= 1;
+  }
+
+  var tail = this.snake.pop();
+  tail = [headX, headY];
+  this.snake.unshift(tail);
+};
+
 Game.Snake.prototype.update = function(inputHandler) {
   'use strict';
+  this.moveSnake();
 };
 
 Game.Snake.prototype.render = function(context) {
