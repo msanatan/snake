@@ -1,6 +1,6 @@
 var Game = Game || {};
 
-Game.SnakeGame = function(width, height, options) {
+Game.Snake = function(width, height, options) {
   'use strict';
   this.width = width;
   this.height = height;
@@ -13,14 +13,14 @@ Game.SnakeGame = function(width, height, options) {
   this.snake = [[midCol, midRow], [midCol - 1, midRow], [midCol - 2, midRow]];
 };
 
-Game.SnakeGame.prototype.DIRECTIONS = {
+Game.Snake.prototype.DIRECTIONS = {
   UP: 'up',
   RIGHT: 'right',
   DOWN: 'down',
   LEFT: 'left'
 };
 
-Game.SnakeGame.prototype.blockPosition = function(col, row) {
+Game.Snake.prototype.blockPosition = function(col, row) {
   'use strict';
   return {
     x: col * this.blockWidth,
@@ -28,11 +28,11 @@ Game.SnakeGame.prototype.blockPosition = function(col, row) {
   };
 };
 
-Game.SnakeGame.prototype.update = function(inputHandler) {
+Game.Snake.prototype.update = function(inputHandler) {
   'use strict';
 };
 
-Game.SnakeGame.prototype.render = function(context) {
+Game.Snake.prototype.render = function(context) {
   'use strict';
   var coordinates;
   var self = this;
