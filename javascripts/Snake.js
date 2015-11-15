@@ -12,6 +12,7 @@ Game.Snake = function(width, height, options) {
   var midRow = Math.floor(rows / 2);
   this.snake = [[midCol, midRow], [midCol - 1, midRow], [midCol - 2, midRow]];
   this.direction = 'right';
+  this.pause = false
 };
 
 Game.Snake.prototype.DIRECTIONS = {
@@ -51,7 +52,13 @@ Game.Snake.prototype.moveSnake = function() {
 
 Game.Snake.prototype.update = function(inputHandler) {
   'use strict';
-  this.moveSnake();
+  if (inputHandler.pressed && inputHandler.isDown('ESC')) {
+    this.pause = !this.pause;
+  }
+
+  if (!this.pause) {
+    this.moveSnake();
+  }
 };
 
 Game.Snake.prototype.render = function(context) {
