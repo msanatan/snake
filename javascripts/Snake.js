@@ -5,7 +5,14 @@ Game.SnakeGame = function(width, height, options) {
   'use strict';
   this.width = width;
   this.height = height;
-  this.grid = [];
+  this.blockWidth = options.blockWidth || 20;
+  this.blockHeight = options.blockHeight || 20;
+  var columns = Math.round(this.width / this.blockWidth);
+  var rows = Math.round(this.height / this.blockHeight);
+  this.grid = new Array(columns);
+  this.grid.forEach(function(g) {
+    g = new Array(rows);
+  });
 };
 
 Game.SnakeGame.prototype.DIRECTIONS = {
