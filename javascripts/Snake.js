@@ -57,6 +57,15 @@ Game.Snake.prototype.update = function(inputHandler) {
   }
 
   if (!this.pause) {
+    if (inputHandler.isDown('UP')) {
+      this.direction = this.DIRECTIONS.UP;
+    } else if (inputHandler.isDown('RIGHT')) {
+      this.direction = this.DIRECTIONS.RIGHT;
+    } else if (inputHandler.isDown('DOWN')) {
+      this.direction = this.DIRECTIONS.DOWN;
+    } else if (inputHandler.isDown('LEFT')) {
+      this.direction = this.DIRECTIONS.LEFT;
+    }
     this.moveSnake();
   }
 };
