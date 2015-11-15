@@ -6,7 +6,7 @@ var FPS = 1000 / 30;
 var engine = new Game.Engine('game', WIDTH, HEIGHT);
 
 engine.init();
-engine.register(new Game.SnakeGame(WIDTH, HEIGHT, {}));
+engine.register(new Game.Snake(WIDTH, HEIGHT, {}));
 
 // Use fallbacks for requestAnimationFrame
 animate = (window.requestAnimationFrame ||
