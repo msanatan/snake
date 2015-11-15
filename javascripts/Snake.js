@@ -8,6 +8,13 @@ Game.SnakeGame = function(width, height, options) {
   this.grid = [];
 };
 
+Game.SnakeGame.prototype.DIRECTIONS = {
+  UP: 'up',
+  RIGHT: 'right',
+  DOWN: 'down',
+  LEFT: 'left'
+};
+
 Game.SnakeGame.prototype.update = function(inputHandler) {
   'use strict';
 };
