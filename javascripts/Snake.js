@@ -79,13 +79,17 @@ Game.Snake.prototype.update = function(inputHandler) {
       this.pause = !this.pause;
     }
     if (!this.pause) {
-      if (inputHandler.isDown('UP')) {
+      if (this.direction !== this.DIRECTIONS.DOWN &&
+          inputHandler.isDown('UP')) {
         this.direction = this.DIRECTIONS.UP;
-      } else if (inputHandler.isDown('RIGHT')) {
+      } else if (this.direction !== this.DIRECTIONS.LEFT &&
+                 inputHandler.isDown('RIGHT')) {
         this.direction = this.DIRECTIONS.RIGHT;
-      } else if (inputHandler.isDown('DOWN')) {
+      } else if (this.direction !== this.DIRECTIONS.UP &&
+                 inputHandler.isDown('DOWN')) {
         this.direction = this.DIRECTIONS.DOWN;
-      } else if (inputHandler.isDown('LEFT')) {
+      } else if (this.direction !== this.DIRECTIONS.RIGHT &&
+                 inputHandler.isDown('LEFT')) {
         this.direction = this.DIRECTIONS.LEFT;
       }
       this.moveSnake();
