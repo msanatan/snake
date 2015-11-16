@@ -72,7 +72,7 @@ Game.Snake.prototype.update = function(inputHandler) {
 
 Game.Snake.prototype.render = function(context) {
   'use strict';
-  var coordinates;
+  var coordinates, textMeasure;
   var self = this;
 
   context.beginPath();
@@ -94,4 +94,13 @@ Game.Snake.prototype.render = function(context) {
   context.closePath();
   context.fill();
   context.stroke();
+
+  if (this.pause) {
+    context.beginPath();
+    context.font = 'bold 120px Helvetica, Verdana, san-serif';
+    context.fillStyle = '#FFDD88';
+    textMeasure = context.measureText('Paused').width;
+    context.fillText('Paused', (this.width / 2) - (textMeasure / 2), this.height / 2);
+    context.closePath();
+  }
 };
