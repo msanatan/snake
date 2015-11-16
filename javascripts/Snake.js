@@ -6,13 +6,14 @@ Game.Snake = function(width, height, options) {
   this.height = height;
   this.blockWidth = options.blockWidth || 20;
   this.blockHeight = options.blockHeight || 20;
-  var columns = Math.round(this.width / this.blockWidth);
-  var rows = Math.round(this.height / this.blockHeight);
-  var midCol = Math.floor(columns / 2);
-  var midRow = Math.floor(rows / 2);
+  this.columns = Math.round(this.width / this.blockWidth);
+  this.rows = Math.round(this.height / this.blockHeight);
+  var midCol = Math.floor(this.columns / 2);
+  var midRow = Math.floor(this.rows / 2);
   this.snake = [[midCol, midRow], [midCol - 1, midRow], [midCol - 2, midRow]];
   this.direction = 'right';
-  this.pause = false
+  this.pause = false;
+  this.gameOver = false;
 };
 
 Game.Snake.prototype.DIRECTIONS = {
@@ -50,23 +51,45 @@ Game.Snake.prototype.moveSnake = function() {
   this.snake.unshift(tail);
 };
 
+Game.Snake.prototype.isIntersecting = function(element, arr) {
+  'use strict';
+  return arr.some(function(a) {
+    return a[0] === element[0] && a[1] === element[1];
+  });
+};
+
+Game.Snake.prototype.isGameOver = function() {
+  'use strict';
+  var head = this.snake[0];
+  if (head[0] < 0 || head[0] >= this.columns ||
+     head[1] < 0 || head[1] >= this.rows ||
+     this.isIntersecting(head, this.snake.slice(1))) {
+    return true;
+  }
+  return false;
+};
+
 Game.Snake.prototype.update = function(inputHandler) {
   'use strict';
-  if (inputHandler.pressed && inputHandler.isDown('ESC')) {
-    this.pause = !this.pause;
-  }
 
-  if (!this.pause) {
-    if (inputHandler.isDown('UP')) {
-      this.direction = this.DIRECTIONS.UP;
-    } else if (inputHandler.isDown('RIGHT')) {
-      this.direction = this.DIRECTIONS.RIGHT;
-    } else if (inputHandler.isDown('DOWN')) {
-      this.direction = this.DIRECTIONS.DOWN;
-    } else if (inputHandler.isDown('LEFT')) {
-      this.direction = this.DIRECTIONS.LEFT;
+  this.gameOver = this.isGameOver();
+  if (!this.gameOver) {
+
+    if (inputHandler.pressed && inputHandler.isDown('ESC')) {
+      this.pause = !this.pause;
     }
-    this.moveSnake();
+    if (!this.pause) {
+      if (inputHandler.isDown('UP')) {
+        this.direction = this.DIRECTIONS.UP;
+      } else if (inputHandler.isDown('RIGHT')) {
+        this.direction = this.DIRECTIONS.RIGHT;
+      } else if (inputHandler.isDown('DOWN')) {
+        this.direction = this.DIRECTIONS.DOWN;
+      } else if (inputHandler.isDown('LEFT')) {
+        this.direction = this.DIRECTIONS.LEFT;
+      }
+      this.moveSnake();
+    }
   }
 };
 
@@ -101,6 +124,15 @@ Game.Snake.prototype.render = function(context) {
     context.fillStyle = '#FFDD88';
     textMeasure = context.measureText('Paused').width;
     context.fillText('Paused', (this.width / 2) - (textMeasure / 2), this.height / 2);
+    context.closePath();
+  }
+
+  if (this.gameOver) {
+    context.beginPath();
+    context.font = 'bold 120px Helvetica, Verdana, san-serif';
+    context.fillStyle = '#FFDD88';
+    textMeasure = context.measureText('Game Over').width;
+    context.fillText('Game Over', (this.width / 2) - (textMeasure / 2), this.height / 2);
     context.closePath();
   }
 };
