@@ -69,6 +69,11 @@ Game.Snake.prototype.isGameOver = function() {
   return false;
 };
 
+Game.Snake.prototype.getRandomInt = function(min, max) {
+  'use strict';
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
 Game.Snake.prototype.update = function(inputHandler) {
   'use strict';
 
