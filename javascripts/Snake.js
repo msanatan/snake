@@ -100,16 +100,16 @@ Game.Snake.prototype.update = function(inputHandler) {
       }
 
       if (this.direction !== this.DIRECTIONS.DOWN &&
-          inputHandler.isDown('UP')) {
+          (inputHandler.isDown('UP') || inputHandler.isDown('W'))) {
         this.direction = this.DIRECTIONS.UP;
       } else if (this.direction !== this.DIRECTIONS.LEFT &&
-                 inputHandler.isDown('RIGHT')) {
+                 (inputHandler.isDown('RIGHT') || inputHandler.isDown('D'))) {
         this.direction = this.DIRECTIONS.RIGHT;
       } else if (this.direction !== this.DIRECTIONS.UP &&
-                 inputHandler.isDown('DOWN')) {
+                 (inputHandler.isDown('DOWN') || inputHandler.isDown('S'))) {
         this.direction = this.DIRECTIONS.DOWN;
       } else if (this.direction !== this.DIRECTIONS.RIGHT &&
-                 inputHandler.isDown('LEFT')) {
+                 (inputHandler.isDown('LEFT') || inputHandler.isDown('A'))) {
         this.direction = this.DIRECTIONS.LEFT;
       }
       this.moveSnake();
