@@ -14,6 +14,8 @@ Game.Snake = function(width, height, options) {
   this.direction = 'right';
   this.pause = false;
   this.gameOver = false;
+  this.food = [];
+  this.foodCount = 0;
 };
 
 Game.Snake.prototype.DIRECTIONS = {
@@ -35,6 +37,7 @@ Game.Snake.prototype.moveSnake = function() {
   'use strict';
   var headX = this.snake[0][0];
   var headY = this.snake[0][1];
+  var tail;
 
   if (this.direction === this.DIRECTIONS.UP) {
     headY -= 1;
@@ -46,7 +49,13 @@ Game.Snake.prototype.moveSnake = function() {
     headX -= 1;
   }
 
-  var tail = this.snake.pop();
+  if (this.food[0] !== headX || this.food[1] !== headY) {
+    tail = this.snake.pop();
+  }
+  else {
+    this.food = [];
+    this.foodCount += 1;
+  }
   tail = [headX, headY];
   this.snake.unshift(tail);
 };
@@ -84,6 +93,12 @@ Game.Snake.prototype.update = function(inputHandler) {
       this.pause = !this.pause;
     }
     if (!this.pause) {
+
+      if (this.food.length === 0) {
+        this.food = [this.getRandomInt(0, this.columns),
+                     this.getRandomInt(0, this.rows)];
+      }
+
       if (this.direction !== this.DIRECTIONS.DOWN &&
           inputHandler.isDown('UP')) {
         this.direction = this.DIRECTIONS.UP;
@@ -104,7 +119,7 @@ Game.Snake.prototype.update = function(inputHandler) {
 
 Game.Snake.prototype.render = function(context) {
   'use strict';
-  var coordinates, textMeasure;
+  var coordinates, textMeasure, foodCoordinates;
   var self = this;
 
   context.beginPath();
@@ -126,6 +141,14 @@ Game.Snake.prototype.render = function(context) {
   context.closePath();
   context.fill();
   context.stroke();
+
+  context.beginPath();
+  foodCoordinates = this.blockPosition(this.food[0], this.food[1]);
+  context.fillStyle = '#FF5566';
+  context.rect(foodCoordinates.x, foodCoordinates.y, this.blockWidth,
+               this.blockHeight);
+  context.closePath();
+  context.fill();
 
   if (this.pause) {
     context.beginPath();
