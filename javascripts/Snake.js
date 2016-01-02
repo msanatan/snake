@@ -8,9 +8,10 @@ Game.Snake = function(width, height, options) {
   this.blockHeight = options.blockHeight || 20;
   this.columns = Math.round(this.width / this.blockWidth);
   this.rows = Math.round(this.height / this.blockHeight);
-  var midCol = Math.floor(this.columns / 2);
-  var midRow = Math.floor(this.rows / 2);
-  this.snake = [[midCol, midRow], [midCol - 1, midRow], [midCol - 2, midRow]];
+  this.midCol = Math.floor(this.columns / 2);
+  this.midRow = Math.floor(this.rows / 2);
+  this.snake = [[this.midCol, this.midRow], [this.midCol - 1, this.midRow],
+                [this.midCol - 2, this.midRow]];
   this.direction = 'right';
   this.pause = false;
   this.gameOver = false;
@@ -83,6 +84,15 @@ Game.Snake.prototype.getRandomInt = function(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+Game.Snake.prototype.reset = function() {
+  this.snake = [[this.midCol, this.midRow], [this.midCol - 1, this.midRow],
+                [this.midCol - 2, this.midRow]];
+  this.food = [];
+  this.foodCount = 0;
+  this.direction = 'right';
+  this.gameOver = false;
+}
+
 Game.Snake.prototype.update = function(inputHandler) {
   'use strict';
 
@@ -113,6 +123,10 @@ Game.Snake.prototype.update = function(inputHandler) {
         this.direction = this.DIRECTIONS.LEFT;
       }
       this.moveSnake();
+    }
+  } else {
+    if (inputHandler.pressed && inputHandler.isDown('RTN')) {
+      this.reset();
     }
   }
 };
@@ -165,6 +179,13 @@ Game.Snake.prototype.render = function(context) {
     context.fillStyle = '#FFDD88';
     textMeasure = context.measureText('Game Over').width;
     context.fillText('Game Over', (this.width / 2) - (textMeasure / 2), this.height / 2);
+    context.closePath();
+
+    context.beginPath();
+    context.font = '80pt Helvetica, Verdana, sans-serif';
+    context.fillStyle = '#FFFFFF';
+    textMeasure = context.measureText('Try Again?').width;
+    context.fillText('Try Again?', (this.width / 2) - (textMeasure / 2), (this.height / 2) + 120);
     context.closePath();
   }
 };
